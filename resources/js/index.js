@@ -47,7 +47,7 @@ export default function filamentWidgetGrid({
                     return
                 }
 
-                if (event.target.closest('.fi-wg-item-content')) {
+                if (event.target.closest('.fi-wg-drag-surface, .fi-wg-item-content')) {
                     document.documentElement.classList.add('fi-wg-grabbing')
                 }
             }

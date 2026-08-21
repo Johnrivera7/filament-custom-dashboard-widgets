@@ -1,6 +1,6 @@
 <div class="filament-hidden">
 
-![Custom Dashboard Widgets](images/cover.jpg)
+![Custom Dashboard Widgets](images/filament-directory-cover.jpg)
 
 # Custom Dashboard Widgets
 
@@ -14,9 +14,11 @@ Give every Filament user a personal desktop: add widgets, drag them into place, 
 
 Compatible with **Filament v5** · PHP **8.2+** · **English & Spanish** · **Dark mode** · **Free (MIT)**
 
-![Drag demo](images/demo.gif)
+![Custom Dashboard Widgets](images/filament-directory-cover.jpg)
 
-![Resize demo](images/demo-resize.gif)
+![Plugins list thumbnail](images/filament-directory-thumbnail.jpg)
+
+![Dashboard — light mode](images/screenshot-light.jpg)
 
 ---
 
@@ -29,11 +31,21 @@ Compatible with **Filament v5** · PHP **8.2+** · **English & Spanish** · **Da
 - **Templates** — save, restore, and share layouts across the panel
 - **Charts that follow the cell** — ApexCharts / stats reflow when resized
 
-![Light mode](images/screenshot-light.jpg)
+### Dark mode
 
-![Dark mode](images/screenshot-dark.jpg)
+![Dark mode dashboard](images/screenshot-dark.jpg)
 
-![Customize mode](images/screenshot-editor.jpg)
+### Customize from the avatar menu
+
+Open **Customize dashboard** from the user menu — no extra pages required.
+
+![Avatar menu — Customize dashboard](images/screenshot-menu.jpg)
+
+### Edit mode
+
+Drag widgets, resize from any edge, remove with ×, and save personal or company defaults.
+
+![Edit mode — drag, resize, remove](images/screenshot-editor.jpg)
 
 ---
 

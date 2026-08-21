@@ -256,6 +256,8 @@
                         >
                             ×
                         </button>
+                        {{-- Capa dedicada: fuerza cursor grab y bloquea clicks del widget al arrastrar. --}}
+                        <div class="fi-wg-drag-surface" aria-hidden="true"></div>
                     @endif
                     <div class="fi-wg-widget" @class(['fi-wg-widget-locked' => $page->widgetGridEditing])>
                         @livewire($item['widget'], key('wg-' . $item['widget'] . '-' . ($page->widgetGridUserId() ?? 'guest')))
