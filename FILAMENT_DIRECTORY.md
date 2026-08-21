@@ -36,4 +36,6 @@ https://raw.githubusercontent.com/Johnrivera7/filament-widget-drag-fit/main/READ
 
 ## Pricing
 
-Leave empty (free).
+Sell via Anystack or Privato (Filament 15% commission). Repo is private; license is **proprietary**.
+
+Suggested price: **$59** one-time.

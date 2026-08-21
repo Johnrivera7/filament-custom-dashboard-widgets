@@ -1,6 +1,6 @@
 {
     "name": "johnrivera7/filament-widget-drag-fit",
-    "description": "Let users drag, resize, and arrange Filament dashboard widgets on a permission-aware collage grid.",
+    "description": "Premium Filament dashboard collage: drag, resize, and fit widgets with per-user layouts, templates, and permissions.",
     "keywords": [
         "johnrivera7",
         "laravel",
@@ -19,7 +19,7 @@
         "issues": "https://github.com/Johnrivera7/filament-widget-drag-fit/issues",
         "source": "https://github.com/Johnrivera7/filament-widget-drag-fit"
     },
-    "license": "MIT",
+    "license": "proprietary",
     "authors": [
         {
             "name": "John Rivera",
