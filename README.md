@@ -1,18 +1,18 @@
 <div class="filament-hidden">
 
-![Widget Drag Fit](images/cover.jpg)
+![Custom Dashboard Widgets](images/cover.jpg)
 
-# Widget Drag Fit
+# Custom Dashboard Widgets
 
 </div>
 
-# Widget Drag Fit
+# Custom Dashboard Widgets
 
-**Draggable widgets that fit your dashboard.**
+**Customize Filament dashboards: drag, resize, and arrange widgets.**
 
-Give every Filament user a personal desktop: add widgets, drag them into place, resize from any edge, and save the layout. Your existing Filament widgets keep working — Widget Drag Fit turns the dashboard into a collage canvas with permissions, defaults, templates, and an admin lock.
+Give every Filament user a personal desktop: add widgets, drag them into place, resize from any edge, and save the layout. Your existing Filament widgets keep working — this plugin turns the dashboard into a collage canvas with permissions, defaults, templates, and an admin lock.
 
-Compatible with **Filament v5** · PHP **8.2+** · **English & Spanish** · **Dark mode**
+Compatible with **Filament v5** · PHP **8.2+** · **English & Spanish** · **Dark mode** · **Free (MIT)**
 
 ![Drag demo](images/demo.gif)
 
@@ -20,7 +20,7 @@ Compatible with **Filament v5** · PHP **8.2+** · **English & Spanish** · **Da
 
 ---
 
-## Why teams buy it
+## Highlights
 
 - **Fits real work** — users arrange KPIs, charts, and tables the way they think, not in a fixed Filament column grid
 - **Zero rewrite** — keep your widgets; the plugin wraps them
@@ -73,7 +73,7 @@ Save for me · Cancel · Reset to default · Save as default · Apply to all use
 ## Quick start
 
 ```bash
-composer require johnrivera7/filament-widget-drag-fit
+composer require johnrivera7/filament-custom-dashboard-widgets
 php artisan filament-widget-grid:install
 ```
 
@@ -149,4 +149,4 @@ php artisan filament-widget-grid:import-dash-arrange --panel=admin
 
 ## License
 
-**Proprietary.** A valid commercial license is required. See `LICENSE.md`.
+**MIT** — free to use. See `LICENSE`.

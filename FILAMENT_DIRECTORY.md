@@ -6,11 +6,11 @@ Use these when submitting https://filamentphp.com/plugins
 
 | Field | Value |
 |---|---|
-| **Name** | `Widget Drag Fit` |
-| **Slug** | `jrg7-widget-drag-fit` (or whatever auto-generates from your author + name) |
-| **GitHub repository** | `Johnrivera7/filament-widget-drag-fit` |
-| **Composer package name** | `johnrivera7/filament-widget-drag-fit` |
-| **Description** | Let users drag, resize, and arrange Filament dashboard widgets on a permission-aware collage grid. |
+| **Name** | `Custom Dashboard Widgets` |
+| **Slug** | `jrg7-custom-dashboard-widgets` (or auto from author + name) |
+| **GitHub repository** | `Johnrivera7/filament-custom-dashboard-widgets` |
+| **Composer package name** | `johnrivera7/filament-custom-dashboard-widgets` |
+| **Description** | Let users customize Filament dashboards: drag, resize, and arrange widgets on a permission-aware collage grid. |
 
 Do **not** put “Filament” in the Name field.
 
@@ -19,23 +19,21 @@ Do **not** put “Filament” in the Name field.
 | Field | File | Spec |
 |---|---|---|
 | **Image** | `images/filament-directory-cover.jpg` | 2560×1440, 16:9, JPEG, light theme |
-| **Thumbnail** | `images/filament-directory-thumbnail.jpg` | 1280×720, 16:9, JPEG, light theme (tighter crop) |
+| **Thumbnail** | `images/filament-directory-thumbnail.jpg` | 1280×720, 16:9, JPEG, light theme |
 
 ## Compatibility
 
 - **Versions:** Filament 5
-- **Categories:** Dashboard / Widgets (pick all that fit the form options)
+- **Categories:** Dashboard / Widgets
 - **Dark theme support:** Yes
 - **Translation support:** Yes (EN + ES)
 
 ## Documentation
 
 ```
-https://raw.githubusercontent.com/Johnrivera7/filament-widget-drag-fit/main/README.md
+https://raw.githubusercontent.com/Johnrivera7/filament-custom-dashboard-widgets/main/README.md
 ```
 
 ## Pricing
 
-Sell via Anystack or Privato (Filament 15% commission). Repo is private; license is **proprietary**.
-
-Suggested price: **$59** one-time.
+**Free** — leave Pricing empty. License: MIT.

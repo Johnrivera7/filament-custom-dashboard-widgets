@@ -1,25 +1,25 @@
 {
-    "name": "johnrivera7/filament-widget-drag-fit",
-    "description": "Premium Filament dashboard collage: drag, resize, and fit widgets with per-user layouts, templates, and permissions.",
+    "name": "johnrivera7/filament-custom-dashboard-widgets",
+    "description": "Custom Filament dashboard widgets: drag, resize, and arrange on a permission-aware collage grid with layouts and templates.",
     "keywords": [
         "johnrivera7",
         "laravel",
         "filamentphp",
         "filament",
         "filament-plugin",
-        "filament-widget-drag-fit",
-        "widget-drag-fit",
+        "custom-dashboard-widgets",
+        "filament-custom-dashboard-widgets",
         "draggable",
         "dashboard",
         "widgets",
         "drag-and-drop"
     ],
-    "homepage": "https://github.com/Johnrivera7/filament-widget-drag-fit",
+    "homepage": "https://github.com/Johnrivera7/filament-custom-dashboard-widgets",
     "support": {
-        "issues": "https://github.com/Johnrivera7/filament-widget-drag-fit/issues",
-        "source": "https://github.com/Johnrivera7/filament-widget-drag-fit"
+        "issues": "https://github.com/Johnrivera7/filament-custom-dashboard-widgets/issues",
+        "source": "https://github.com/Johnrivera7/filament-custom-dashboard-widgets"
     },
-    "license": "proprietary",
+    "license": "MIT",
     "authors": [
         {
             "name": "John Rivera",

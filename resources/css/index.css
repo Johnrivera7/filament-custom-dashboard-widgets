@@ -287,22 +287,34 @@
     user-select: none;
 }
 
+.fi-wg-grid-editing .fi-wg-item-content,
+.fi-wg-grid-editing .fi-wg-item-content * {
+    cursor: grab !important;
+}
+
 .fi-wg-grid-editing .fi-wg-item-content {
     border-radius: 0.75rem;
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary-500, #3b82f6) 40%, transparent);
-    cursor: grab;
     overflow: hidden;
 }
 
 .fi-wg-grid-editing .grid-stack-item:active:not(.ui-resizable-resizing) > .fi-wg-item-content,
+.fi-wg-grid-editing .grid-stack-item:active:not(.ui-resizable-resizing) > .fi-wg-item-content *,
 .fi-wg-grid-editing .grid-stack-item.ui-draggable-dragging,
-.fi-wg-grid-editing .grid-stack-item.ui-draggable-dragging > .fi-wg-item-content {
+.fi-wg-grid-editing .grid-stack-item.ui-draggable-dragging *,
+.fi-wg-grid-editing .grid-stack-item.ui-draggable-dragging > .fi-wg-item-content,
+.fi-wg-grid-editing .grid-stack-item.ui-draggable-dragging > .fi-wg-item-content * {
     cursor: grabbing !important;
 }
 
 html.fi-wg-grabbing,
 html.fi-wg-grabbing *:not(.ui-resizable-handle) {
     cursor: grabbing !important;
+}
+
+.fi-wg-grid-editing .fi-wg-remove,
+.fi-wg-grid-editing .fi-wg-remove * {
+    cursor: pointer !important;
 }
 
 .fi-wg-grid-editing > .grid-stack-item > .ui-resizable-handle {
