@@ -8,13 +8,15 @@
 
 # Custom Dashboard Widgets
 
+![Custom Dashboard Widgets](images/custom-widgets.gif)
+
 **Customize Filament dashboards: drag, resize, and arrange widgets.**
 
 Give every Filament user a personal desktop: add widgets, drag them into place, resize from any edge, and save the layout. Your existing Filament widgets keep working — this plugin turns the dashboard into a collage canvas with permissions, defaults, templates, and an admin lock.
 
 Compatible with **Filament v5** · PHP **8.2+** · **English & Spanish** · **Dark mode** · **Free (MIT)**
 
-![Custom Dashboard Widgets](images/filament-directory-cover.jpg)
+![Custom Dashboard Widgets cover](images/filament-directory-cover.jpg)
 
 ![Plugins list thumbnail](images/filament-directory-thumbnail.jpg)
 
