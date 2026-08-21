@@ -40,7 +40,8 @@
     box-shadow:
         0 1px 2px color-mix(in srgb, var(--gray-950, #030712) 4%, transparent),
         0 8px 24px color-mix(in srgb, var(--gray-950, #030712) 3%, transparent);
-    padding: 1.15rem 1.25rem 1.25rem;
+    overflow: hidden;
+    padding: 0;
 }
 
 .dark .fi-wg-panel {
@@ -52,6 +53,45 @@
             color-mix(in srgb, var(--gray-800, #1f2937) 88%, transparent) 100%
         );
     box-shadow: none;
+}
+
+.fi-wg-accordion-trigger {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    gap: 0.85rem;
+    justify-content: space-between;
+    padding: 0.95rem 1.15rem;
+    text-align: left;
+    width: 100%;
+}
+
+.fi-wg-accordion-trigger:hover {
+    background: color-mix(in srgb, var(--primary-500, #3b82f6) 4%, transparent);
+}
+
+.fi-wg-accordion-chevron {
+    align-items: center;
+    color: var(--gray-400, #9ca3af);
+    display: inline-flex;
+    flex-shrink: 0;
+    transition: transform 160ms ease;
+}
+
+.fi-wg-panel--open .fi-wg-accordion-chevron {
+    transform: rotate(180deg);
+}
+
+.fi-wg-accordion-body {
+    border-top: 1px solid color-mix(in srgb, var(--gray-200, #e5e7eb) 88%, transparent);
+    padding: 1rem 1.15rem 1.15rem;
+}
+
+.dark .fi-wg-accordion-body {
+    border-top-color: color-mix(in srgb, var(--gray-700, #374151) 80%, transparent);
 }
 
 .fi-wg-panel-header {
@@ -66,7 +106,12 @@
 .fi-wg-panel-heading {
     align-items: flex-start;
     display: flex;
+    flex: 1 1 auto;
     gap: 0.85rem;
+    min-width: 0;
+}
+
+.fi-wg-panel-heading-text {
     min-width: 0;
 }
 
@@ -107,10 +152,20 @@
 
 .fi-wg-panel-help {
     color: var(--gray-500, #6b7280);
+    display: -webkit-box;
     font-size: 0.8125rem;
     line-height: 1.45;
     margin: 0.2rem 0 0;
     max-width: 42rem;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+
+.fi-wg-panel--open .fi-wg-panel-help {
+    -webkit-line-clamp: unset;
+    display: block;
+    overflow: visible;
 }
 
 .fi-wg-empty-hint {
@@ -121,8 +176,10 @@
 }
 
 .fi-wg-search-wrap {
+    margin-bottom: 0.85rem;
+    max-width: 22rem;
     position: relative;
-    width: min(100%, 18rem);
+    width: 100%;
 }
 
 .fi-wg-search-icon {

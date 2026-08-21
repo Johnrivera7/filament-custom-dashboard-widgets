@@ -437,6 +437,40 @@ trait HasWidgetGrid
         $this->setWidgetGridTemplateShared($id, false);
     }
 
+    public function deleteWidgetGridTemplate(int $id): void
+    {
+        if (! $this->canCustomizeWidgetGrid() || ! $this->widgetGridPlugin()->hasTemplates()) {
+            return;
+        }
+
+        $userId = $this->widgetGridUserId();
+
+        if ($userId === null) {
+            return;
+        }
+
+        $template = WidgetGridTemplate::query()
+            ->where('user_id', $userId)
+            ->where('panel_id', $this->widgetGridPanelId())
+            ->find($id);
+
+        if ($template === null) {
+            Notification::make()
+                ->danger()
+                ->title(__('filament-widget-grid::widget-grid.template_missing'))
+                ->send();
+
+            return;
+        }
+
+        $template->delete();
+
+        Notification::make()
+            ->success()
+            ->title(__('filament-widget-grid::widget-grid.template_deleted'))
+            ->send();
+    }
+
     public function applySharedWidgetGridTemplate(int $id): void
     {
         if (! $this->canCustomizeWidgetGrid()) {

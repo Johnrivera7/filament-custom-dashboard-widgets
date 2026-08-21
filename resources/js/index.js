@@ -10,6 +10,7 @@ export default function filamentWidgetGrid({
     return {
         editable,
         catalogQuery: '',
+        openToolbarPanel: null,
         grid: null,
         booting: false,
         reflowTimer: null,
@@ -81,6 +82,14 @@ export default function filamentWidgetGrid({
             const query = this.catalogQuery.trim().toLowerCase()
 
             return query === '' || String(title).toLowerCase().includes(query)
+        },
+
+        toggleToolbarPanel(panel) {
+            this.openToolbarPanel = this.openToolbarPanel === panel ? null : panel
+        },
+
+        isToolbarPanelOpen(panel) {
+            return this.openToolbarPanel === panel
         },
 
         onEscape(event) {
