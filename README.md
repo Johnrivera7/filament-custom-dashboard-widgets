@@ -63,7 +63,6 @@ Compatible with **Filament v5** · PHP **8.2+** · **English & Spanish** · **Da
 | Action | Purpose |
 |---|---|
 | **Customize dashboard** | Opens `/?customize=1` |
-| **Lock / Unlock customization** | Blocks normal users from editing the collage |
 
 ### While editing (header)
 Save for me · Cancel · Reset to default · Save as default · Apply to all users

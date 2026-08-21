@@ -7,7 +7,6 @@ namespace JohnRivera7\FilamentWidgetGrid;
 use Closure;
 use Filament\Actions\Action;
 use Filament\Contracts\Plugin;
-use Filament\Notifications\Notification;
 use Filament\Panel;
 use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\Widget;
@@ -71,28 +70,6 @@ class FilamentWidgetGridPlugin implements Plugin
                 ->sort(0)
                 ->url(fn (): string => $this->dashboardCustomizeUrl($panel))
                 ->visible(fn (): bool => $this->shouldShowCustomizeMenuItem($panel)),
-            Action::make('widgetGridToggleLock')
-                ->label(fn (): string => $this->panelCustomizationLocked($panel->getId())
-                    ? __('filament-widget-grid::widget-grid.unlock')
-                    : __('filament-widget-grid::widget-grid.lock'))
-                ->icon(Heroicon::LockClosed)
-                ->sort(1)
-                ->visible(fn (): bool => Schema::hasTable('widget_grid_settings') && $this->userCanManageDefaults())
-                ->action(function () use ($panel): void {
-                    if (! Schema::hasTable('widget_grid_settings')) {
-                        return;
-                    }
-
-                    $panelId = $panel->getId();
-                    WidgetGridSetting::setLocked($panelId, ! WidgetGridSetting::isLocked($panelId));
-
-                    Notification::make()
-                        ->success()
-                        ->title(WidgetGridSetting::isLocked($panelId)
-                            ? __('filament-widget-grid::widget-grid.locked')
-                            : __('filament-widget-grid::widget-grid.unlocked'))
-                        ->send();
-                }),
         ]);
     }
 
