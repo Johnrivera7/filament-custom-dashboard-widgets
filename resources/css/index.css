@@ -1,0 +1,246 @@
+@import 'gridstack/dist/gridstack.min.css';
+
+.fi-wg {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+.fi-wg-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.fi-wg-panel {
+    border-radius: 0.75rem;
+    border: 1px solid color-mix(in srgb, var(--gray-300, #d1d5db) 80%, transparent);
+    background: color-mix(in srgb, var(--gray-50, #f9fafb) 90%, transparent);
+    padding: 1rem;
+}
+
+.fi-wg-panel-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+}
+
+.fi-wg-panel-help {
+    color: var(--gray-500, #6b7280);
+    font-size: 0.875rem;
+    margin: 0 0 0.75rem;
+}
+
+.fi-wg-catalog {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+}
+
+.fi-wg-catalog-item {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+}
+
+.fi-wg-catalog-checkbox {
+    height: 1rem;
+    width: 1rem;
+}
+
+.fi-wg-template-form {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.fi-wg-input {
+    max-width: 20rem;
+}
+
+.fi-wg-template-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.fi-wg-template-row {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: space-between;
+}
+
+.fi-wg-template-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.fi-wg-search {
+    margin-bottom: 0.75rem;
+    max-width: 24rem;
+    width: 100%;
+}
+
+.fi-wg-mobile-note {
+    display: none;
+    color: var(--gray-500, #6b7280);
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.fi-wg-grid-editing {
+    background-image:
+        linear-gradient(to right, color-mix(in srgb, var(--primary-500, #3b82f6) 16%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in srgb, var(--primary-500, #3b82f6) 16%, transparent) 1px, transparent 1px);
+    background-size: calc(100% / var(--fi-wg-columns, 24)) var(--fi-wg-cell-height, 45px);
+}
+
+@media (max-width: 767px) {
+    .fi-wg-mobile-note {
+        display: block;
+    }
+
+    .fi-wg-grid-editing {
+        background-image: none;
+    }
+
+    .fi-wg-grid-editing .ui-resizable-handle,
+    .fi-wg-grid-editing .fi-wg-remove {
+        display: none !important;
+    }
+}
+
+.fi-wg-item-content {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.fi-wg-widget {
+    height: 100%;
+    min-height: 0;
+}
+
+.fi-wg-widget > * {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+}
+
+.fi-wg-widget .fi-section,
+.fi-wg-widget .filament-apex-charts-section,
+.fi-wg-widget .filament-apex-charts-widget {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+.fi-wg-widget .fi-section-content-ctn,
+.fi-wg-widget .fi-section-content,
+.fi-wg-widget .filament-apex-charts-chart,
+.fi-wg-widget .filament-apex-charts-chart-container,
+.fi-wg-widget .filament-apex-charts-chart-object {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    width: 100%;
+}
+
+.fi-wg-widget .fi-section-content > * {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    width: 100%;
+}
+
+.fi-wg-grid.grid-stack > .grid-stack-item > .grid-stack-item-content {
+    overflow: hidden;
+}
+
+.fi-wg-widget .apexcharts-legend {
+    flex-wrap: wrap !important;
+    justify-content: center;
+    max-width: 100%;
+    overflow: visible !important;
+    height: auto !important;
+}
+
+.fi-wg-widget .apexcharts-legend-series {
+    margin: 2px 6px !important;
+}
+
+.fi-wg-widget-locked {
+    pointer-events: none;
+    user-select: none;
+}
+
+.fi-wg-grid-editing .fi-wg-item-content {
+    border-radius: 0.75rem;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary-500, #3b82f6) 40%, transparent);
+    cursor: grab;
+    overflow: hidden;
+}
+
+.fi-wg-grid-editing > .grid-stack-item > .ui-resizable-handle {
+    pointer-events: auto;
+    z-index: 50;
+}
+
+.fi-wg-remove {
+    align-items: center;
+    background: color-mix(in srgb, var(--danger-500, #ef4444) 90%, transparent);
+    border: 0;
+    border-radius: 999px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 1rem;
+    height: 1.5rem;
+    justify-content: center;
+    line-height: 1;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    width: 1.5rem;
+    z-index: 20;
+}
+
+.fi-wg-empty {
+    color: var(--gray-500, #6b7280);
+    font-size: 0.875rem;
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.dark .fi-wg-panel {
+    background: color-mix(in srgb, var(--gray-800, #1f2937) 80%, transparent);
+    border-color: color-mix(in srgb, var(--gray-700, #374151) 80%, transparent);
+}
+
+html.dark .fi-wg-panel {
+    background: color-mix(in srgb, var(--gray-800, #1f2937) 80%, transparent);
+    border-color: color-mix(in srgb, var(--gray-700, #374151) 80%, transparent);
+}

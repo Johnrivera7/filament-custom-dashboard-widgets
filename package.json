@@ -1,0 +1,15 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "node bin/build.js --dev",
+        "build": "node bin/build.js"
+    },
+    "dependencies": {
+        "gridstack": "^11.5.1"
+    },
+    "devDependencies": {
+        "esbuild": "^0.28.0",
+        "prettier": "^3.5.3"
+    }
+}
