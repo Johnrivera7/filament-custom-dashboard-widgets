@@ -10,8 +10,8 @@
 <div
     class="fi-wg"
     x-load
-    x-load-css="[@js(\Filament\Support\Facades\FilamentAsset::getStyleHref('filament-widget-grid-styles', 'johnrivera7/filament-widget-grid'))]"
-    x-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('filamentWidgetGrid', 'johnrivera7/filament-widget-grid') }}"
+    x-load-css="[@js(\Filament\Support\Facades\FilamentAsset::getStyleHref('filament-widget-grid-styles', 'johnrivera7/filament-widget-drag-fit'))]"
+    x-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('filamentWidgetGrid', 'johnrivera7/filament-widget-drag-fit') }}"
     x-data="filamentWidgetGrid(@js($config))"
     x-on:keydown.escape.window="onEscape($event)"
 >
@@ -59,7 +59,7 @@
                             placeholder="{{ __('filament-widget-grid::widget-grid.template_name') }}"
                             class="fi-input fi-wg-input"
                         />
-                        <x-filament::button size="sm" wire:click="saveWidgetGridTemplateFromInput">
+                        <x-filament::button size="sm" x-on:click.prevent="saveAsTemplate()">
                             {{ __('filament-widget-grid::widget-grid.save_template') }}
                         </x-filament::button>
                     </div>
@@ -122,6 +122,7 @@
     <div
         x-ref="grid"
         class="grid-stack fi-wg-grid"
+        wire:key="fi-wg-stack"
         @class(['fi-wg-grid-editing' => $page->widgetGridEditing])
     >
         @forelse ($visible as $item)

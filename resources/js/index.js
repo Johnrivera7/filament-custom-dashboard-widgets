@@ -11,9 +11,12 @@ export default function filamentWidgetGrid({
         editable,
         catalogQuery: '',
         grid: null,
+        booting: false,
         reflowTimer: null,
         resizeObserver: null,
         onWindowResize: null,
+        onPointerDown: null,
+        onPointerUp: null,
 
         init() {
             this.bootGrid()
@@ -29,6 +32,49 @@ export default function filamentWidgetGrid({
 
         canEdit() {
             return this.editable && ! this.isMobile()
+        },
+
+        bindGrabCursor(root) {
+            this.unbindGrabCursor()
+
+            this.onPointerDown = (event) => {
+                if (! this.canEdit() || ! (event.target instanceof Element)) {
+                    return
+                }
+
+                if (event.target.closest('.ui-resizable-handle, .fi-wg-remove, input, textarea, select, button, a')) {
+                    return
+                }
+
+                if (event.target.closest('.fi-wg-item-content')) {
+                    document.documentElement.classList.add('fi-wg-grabbing')
+                }
+            }
+
+            this.onPointerUp = () => {
+                document.documentElement.classList.remove('fi-wg-grabbing')
+            }
+
+            root.addEventListener('pointerdown', this.onPointerDown)
+            window.addEventListener('pointerup', this.onPointerUp)
+            window.addEventListener('pointercancel', this.onPointerUp)
+        },
+
+        unbindGrabCursor() {
+            const root = this.$refs.grid
+
+            if (this.onPointerDown && root) {
+                root.removeEventListener('pointerdown', this.onPointerDown)
+            }
+
+            if (this.onPointerUp) {
+                window.removeEventListener('pointerup', this.onPointerUp)
+                window.removeEventListener('pointercancel', this.onPointerUp)
+            }
+
+            this.onPointerDown = null
+            this.onPointerUp = null
+            document.documentElement.classList.remove('fi-wg-grabbing')
         },
 
         matchesCatalog(title) {
@@ -52,15 +98,19 @@ export default function filamentWidgetGrid({
         },
 
         bootGrid() {
-            if (this.grid) {
-                this.grid.destroy(false)
-                this.grid = null
-            }
-
             const root = this.$refs.grid
 
             if (!root) {
                 return
+            }
+
+            this.booting = true
+
+            if (this.grid) {
+                this.grid.destroy(false)
+                this.grid = null
+            } else if (root.gridstack) {
+                root.gridstack.destroy(false)
             }
 
             const canEdit = this.canEdit()
@@ -95,26 +145,43 @@ export default function filamentWidgetGrid({
             this.fitContentWidgets()
 
             this.grid.on('change', () => this.sync())
-            this.grid.on('resizestop', (_event, el) => this.scheduleReflow(el))
+            this.grid.on('resizestop', (_event, el) => {
+                this.scheduleReflow(el)
+                setTimeout(() => this.fitContentWidgets({ growOnly: true }), 140)
+            })
             this.observeChartCells(root)
+            this.bindGrabCursor(root)
             setTimeout(() => this.scheduleReflow(), 200)
             setTimeout(() => this.scheduleReflow(), 700)
             setTimeout(() => this.scheduleReflow(), 1400)
             setTimeout(() => this.fitContentWidgets(), 400)
+            setTimeout(() => {
+                this.booting = false
+            }, 50)
         },
 
-        fitContentWidgets() {
+        fitContentWidgets({ growOnly = false } = {}) {
             if (! this.grid || typeof this.grid.resizeToContent !== 'function') {
                 return
             }
 
             this.grid.getGridItems().forEach((el) => {
-                if (el.getAttribute('gs-size-to-content')) {
-                    try {
-                        this.grid.resizeToContent(el)
-                    } catch {
-                        // GridStack ignores nodes that cannot shrink to content.
+                if (! el.getAttribute('gs-size-to-content')) {
+                    return
+                }
+
+                if (growOnly) {
+                    const content = el.querySelector('.grid-stack-item-content')
+
+                    if (content && content.scrollHeight <= content.clientHeight + 4) {
+                        return
                     }
+                }
+
+                try {
+                    this.grid.resizeToContent(el)
+                } catch {
+                    // GridStack ignores nodes that cannot shrink to content.
                 }
             })
         },
@@ -127,14 +194,14 @@ export default function filamentWidgetGrid({
                 entries.forEach((entry) => {
                     const item = entry.target.closest('.grid-stack-item')
 
-                    if (
-                        item?.classList.contains('ui-resizable-resizing') ||
-                        item?.classList.contains('ui-draggable-dragging')
-                    ) {
+                    if (item?.classList.contains('ui-draggable-dragging')) {
                         return
                     }
 
-                    this.scheduleReflow(item)
+                    this.scheduleReflow(
+                        item,
+                        item?.classList.contains('ui-resizable-resizing') ? 32 : 80,
+                    )
                 })
             })
 
@@ -154,9 +221,9 @@ export default function filamentWidgetGrid({
             window.addEventListener('resize', this.onWindowResize)
         },
 
-        scheduleReflow(el) {
+        scheduleReflow(el, delay = 80) {
             clearTimeout(this.reflowTimer)
-            this.reflowTimer = setTimeout(() => this.reflowCharts(el), 80)
+            this.reflowTimer = setTimeout(() => this.reflowCharts(el), delay)
         },
 
         reflowCharts(scope) {
@@ -185,24 +252,46 @@ export default function filamentWidgetGrid({
                 const chartWrap =
                     content.querySelector('.fi-section-content') ??
                     content.querySelector('.filament-apex-charts-chart')
-                const available = chartWrap
-                    ? this.innerBoxHeight(chartWrap)
-                    : content.clientHeight - (header?.offsetHeight ?? 0)
-                const height = Math.max(120, available - 4)
-                const width = Math.max(
+                const width = Math.max(1, content.clientWidth)
+                const height = Math.max(1, content.clientHeight)
+                const portrait = height > width * 0.92
+                const chartHeight = Math.max(
+                    120,
+                    (chartWrap ? this.innerBoxHeight(chartWrap) : height - (header?.offsetHeight ?? 0)) - 4,
+                )
+                const chartWidth = Math.max(
                     1,
-                    (chartWrap instanceof HTMLElement ? chartWrap.clientWidth : content.clientWidth) -
+                    (chartWrap instanceof HTMLElement ? chartWrap.clientWidth : width) -
                         this.horizontalPadding(chartWrap ?? content),
                 )
-                const portrait = height > width * 0.92
+
+                this.adaptCellLayout(item, { width, portrait })
 
                 this.apexChartsIn(content).forEach((chart) => {
-                    this.adaptApexChart(chart, { height, width, portrait })
+                    this.adaptApexChart(chart, { height: chartHeight, width: chartWidth, portrait })
                 })
 
                 content.querySelectorAll('canvas').forEach((canvas) => {
                     window.Chart?.getChart?.(canvas)?.resize?.()
                 })
+            })
+        },
+
+        adaptCellLayout(item, { width, portrait }) {
+            const cols = portrait || width < 420 ? 1 : width < 780 ? 2 : null
+
+            item.classList.toggle('fi-wg-cell-portrait', cols === 1)
+            item.classList.toggle('fi-wg-cell-split', cols === 2)
+            item.classList.toggle('fi-wg-cell-landscape', cols === null)
+
+            item.querySelectorAll('.fi-grid:not(.fi-grid-direction-col)').forEach((grid) => {
+                const children = Math.max(1, grid.children.length)
+                const next = cols === 1 ? 1 : cols === 2 ? Math.min(2, children) : children
+
+                grid.style.setProperty(
+                    'grid-template-columns',
+                    `repeat(${next}, minmax(0, 1fr))`,
+                )
             })
         },
 
@@ -305,14 +394,20 @@ export default function filamentWidgetGrid({
             if (legendHidden) {
                 options.legend = { show: false }
             } else {
+                const requested = chart.w?.globals?.initialConfig?.legend?.position
+                    ?? chart.w?.config?.legend?.position
+                    ?? 'bottom'
+                const stackLegend = portrait || width < 720 || type === 'donut' || type === 'pie'
+
                 options.legend = {
                     show: true,
-                    position: type === 'donut' || type === 'pie'
-                        ? (cramped || portrait ? 'bottom' : 'right')
-                        : 'bottom',
+                    position: stackLegend ? 'bottom' : requested,
+                    horizontalAlign: 'center',
                     fontSize,
                     offsetY: 0,
-                    height: cramped ? 52 : 40,
+                    floating: false,
+                    height: undefined,
+                    width: undefined,
                     itemMargin: {
                         horizontal: cramped ? 6 : 12,
                         vertical: cramped ? 2 : 6,
@@ -366,20 +461,31 @@ export default function filamentWidgetGrid({
         },
 
         sync() {
-            if (!this.grid || !this.editable) {
+            if (! this.grid || ! this.editable || this.booting) {
                 return
             }
 
-            const items = this.grid.save(false).map((node) => ({
-                widget: String(node.id),
-                x: Number(node.x ?? 0),
-                y: Number(node.y ?? 0),
-                w: Number(node.w ?? 1),
-                h: Number(node.h ?? 1),
-                visible: true,
-            }))
+            const items = this.grid.save(false)
+                .map((node) => ({
+                    widget: String(node.id ?? ''),
+                    x: Number(node.x ?? 0),
+                    y: Number(node.y ?? 0),
+                    w: Number(node.w ?? 1),
+                    h: Number(node.h ?? 1),
+                    visible: true,
+                }))
+                .filter((item) => item.widget !== '' && item.widget !== 'undefined' && item.widget !== 'null')
+
+            if (items.length === 0) {
+                return
+            }
 
             this.$wire.set('widgetGridLayout', items, false)
+        },
+
+        async saveAsTemplate() {
+            this.sync()
+            await this.$wire.saveWidgetGridTemplateFromInput()
         },
 
         toggleWidget(widgetClass, visible) {
@@ -391,6 +497,7 @@ export default function filamentWidgetGrid({
             clearTimeout(this.reflowTimer)
             this.resizeObserver?.disconnect()
             this.resizeObserver = null
+            this.unbindGrabCursor()
 
             if (this.onWindowResize) {
                 window.removeEventListener('resize', this.onWindowResize)

@@ -131,11 +131,15 @@ final class WidgetInspector
     }
 
     /**
+     * The grid never locks width from widget code.
+     *
      * @param  class-string  $widgetClass
      */
     public static function gridMinWidth(string $widgetClass, int $columns = 24): int
     {
-        return self::staticIntProperty($widgetClass, 'gridMinW', 1, $columns);
+        unset($widgetClass, $columns);
+
+        return 1;
     }
 
     /**
@@ -147,11 +151,19 @@ final class WidgetInspector
     }
 
     /**
+     * Widgets are freely resized by the grid. Authors may opt into hug-content height.
+     *
      * @param  class-string  $widgetClass
      */
     public static function sizeToContent(string $widgetClass): bool
     {
-        return ! self::isChartWidget($widgetClass);
+        if (! class_exists($widgetClass)) {
+            return false;
+        }
+
+        $vars = get_class_vars($widgetClass);
+
+        return isset($vars['gridSizeToContent']) && $vars['gridSizeToContent'] === true;
     }
 
     /**

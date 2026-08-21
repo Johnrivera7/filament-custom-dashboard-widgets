@@ -96,6 +96,24 @@ it('unwraps legacy stored layouts as 12 columns', function () {
         ->and($unwrapped['items'])->toHaveCount(1);
 });
 
+it('skips non-array entries when normalizing a mixed payload', function () {
+    $items = LayoutPacker::normalize([
+        24,
+        45,
+        ['widget' => 'StatsWidget', 'x' => 0, 'y' => 0, 'w' => 6, 'h' => 2, 'visible' => true],
+    ], columns: 24, maxHeight: 60);
+
+    expect($items)->toHaveCount(1)
+        ->and($items[0])->toMatchArray([
+            'widget' => 'StatsWidget',
+            'x' => 0,
+            'y' => 0,
+            'w' => 6,
+            'h' => 2,
+            'visible' => true,
+        ]);
+});
+
 it('uses explicit gridW and gridH as the default cell size', function () {
     $widget = new class
     {
@@ -163,16 +181,32 @@ it('uses compact density for tighter rows', function () {
         ->and(FilamentWidgetGridPlugin::make()->density('compact')->getDensity())->toBe('compact');
 });
 
-it('sizes non-chart widgets to their content', function () {
-    $widget = new class
+it('lets every widget move and resize unless the author opts into hug-content', function () {
+    $plain = new class
     {
         //
     };
 
-    expect(WidgetInspector::sizeToContent($widget::class))->toBeTrue();
+    $hug = new class
+    {
+        public static bool $gridSizeToContent = true;
+    };
+
+    $stats = new class extends \Filament\Widgets\StatsOverviewWidget
+    {
+        protected function getStats(): array
+        {
+            return [];
+        }
+    };
+
+    expect(WidgetInspector::sizeToContent($plain::class))->toBeFalse()
+        ->and(WidgetInspector::sizeToContent($hug::class))->toBeTrue()
+        ->and(WidgetInspector::sizeToContent($stats::class))->toBeFalse()
+        ->and(WidgetInspector::gridMinWidth($stats::class, 24))->toBe(1);
 });
 
-it('reads optional grid minimums from the widget class', function () {
+it('does not let widget code lock the cell minimum width', function () {
     $widget = new class
     {
         public static int $gridMinW = 10;
@@ -180,7 +214,21 @@ it('reads optional grid minimums from the widget class', function () {
         public static int $gridMinH = 8;
     };
 
-    expect(WidgetInspector::gridMinWidth($widget::class, 24))->toBe(10)
+    expect(WidgetInspector::gridMinWidth($widget::class, 24))->toBe(1)
         ->and(WidgetInspector::gridMinHeight($widget::class, 60))->toBe(8)
         ->and(WidgetInspector::gridMinWidth('MissingWidget', 24))->toBe(1);
+});
+
+it('detects Filament stats widgets without extra author config', function () {
+    $widget = new class extends \Filament\Widgets\StatsOverviewWidget
+    {
+        protected function getStats(): array
+        {
+            return [];
+        }
+    };
+
+    expect(WidgetInspector::isStatsWidget($widget::class))->toBeTrue()
+        ->and(WidgetInspector::gridMinWidth($widget::class, 24))->toBe(1)
+        ->and(WidgetInspector::sizeToContent($widget::class))->toBeFalse();
 });

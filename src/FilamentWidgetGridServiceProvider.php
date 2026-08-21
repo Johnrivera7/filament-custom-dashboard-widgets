@@ -31,7 +31,7 @@ class FilamentWidgetGridServiceProvider extends PackageServiceProvider
                     ->publishConfigFile()
                     ->publishMigrations()
                     ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub('Johnrivera7/filament-widget-grid');
+                    ->askToStarRepoOnGitHub('Johnrivera7/filament-widget-drag-fit');
             });
 
         $configFileName = $package->shortName();
@@ -73,7 +73,7 @@ class FilamentWidgetGridServiceProvider extends PackageServiceProvider
 
     protected function getAssetPackageName(): ?string
     {
-        return 'johnrivera7/filament-widget-grid';
+        return 'johnrivera7/filament-widget-drag-fit';
     }
 
     /**

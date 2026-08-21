@@ -1,21 +1,23 @@
 {
-    "name": "johnrivera7/filament-widget-grid",
-    "description": "Let users add, move and resize Filament widgets on a permission-aware collage grid.",
+    "name": "johnrivera7/filament-widget-drag-fit",
+    "description": "Let users drag, resize, and arrange Filament dashboard widgets on a permission-aware collage grid.",
     "keywords": [
         "johnrivera7",
         "laravel",
         "filamentphp",
         "filament",
         "filament-plugin",
-        "filament-widget-grid",
+        "filament-widget-drag-fit",
+        "widget-drag-fit",
+        "draggable",
         "dashboard",
         "widgets",
         "drag-and-drop"
     ],
-    "homepage": "https://github.com/Johnrivera7/filament-widget-grid",
+    "homepage": "https://github.com/Johnrivera7/filament-widget-drag-fit",
     "support": {
-        "issues": "https://github.com/Johnrivera7/filament-widget-grid/issues",
-        "source": "https://github.com/Johnrivera7/filament-widget-grid"
+        "issues": "https://github.com/Johnrivera7/filament-widget-drag-fit/issues",
+        "source": "https://github.com/Johnrivera7/filament-widget-drag-fit"
     },
     "license": "MIT",
     "authors": [

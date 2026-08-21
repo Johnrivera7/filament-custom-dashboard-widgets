@@ -19,6 +19,10 @@ final class LayoutPacker
         $normalized = [];
 
         foreach ($items as $item) {
+            if (! is_array($item)) {
+                continue;
+            }
+
             $widget = $item['widget'] ?? $item['widget_name'] ?? null;
 
             if (! is_string($widget) || $widget === '') {

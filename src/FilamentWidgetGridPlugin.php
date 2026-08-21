@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace JohnRivera7\FilamentWidgetGrid;
 
 use Closure;
+use Filament\Actions\Action;
 use Filament\Contracts\Plugin;
+use Filament\Notifications\Notification;
 use Filament\Panel;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\Widget;
 use Filament\Widgets\WidgetConfiguration;
+use Illuminate\Support\Facades\Schema;
+use JohnRivera7\FilamentWidgetGrid\Models\WidgetGridSetting;
 
 class FilamentWidgetGridPlugin implements Plugin
 {
@@ -59,7 +64,36 @@ class FilamentWidgetGridPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        //
+        $panel->userMenuItems([
+            Action::make('widgetGridCustomize')
+                ->label(fn (): string => __('filament-widget-grid::widget-grid.customize'))
+                ->icon(Heroicon::SquaresPlus)
+                ->sort(0)
+                ->url(fn (): string => $this->dashboardCustomizeUrl($panel))
+                ->visible(fn (): bool => $this->shouldShowCustomizeMenuItem($panel)),
+            Action::make('widgetGridToggleLock')
+                ->label(fn (): string => $this->panelCustomizationLocked($panel->getId())
+                    ? __('filament-widget-grid::widget-grid.unlock')
+                    : __('filament-widget-grid::widget-grid.lock'))
+                ->icon(Heroicon::LockClosed)
+                ->sort(1)
+                ->visible(fn (): bool => Schema::hasTable('widget_grid_settings') && $this->userCanManageDefaults())
+                ->action(function () use ($panel): void {
+                    if (! Schema::hasTable('widget_grid_settings')) {
+                        return;
+                    }
+
+                    $panelId = $panel->getId();
+                    WidgetGridSetting::setLocked($panelId, ! WidgetGridSetting::isLocked($panelId));
+
+                    Notification::make()
+                        ->success()
+                        ->title(WidgetGridSetting::isLocked($panelId)
+                            ? __('filament-widget-grid::widget-grid.locked')
+                            : __('filament-widget-grid::widget-grid.unlocked'))
+                        ->send();
+                }),
+        ]);
     }
 
     public function boot(Panel $panel): void
@@ -254,6 +288,35 @@ class FilamentWidgetGridPlugin implements Plugin
     public function hasTemplates(): bool
     {
         return $this->templates;
+    }
+
+    protected function dashboardCustomizeUrl(Panel $panel): string
+    {
+        $url = rtrim($panel->getUrl(), '/');
+
+        return $url.'/?customize=1';
+    }
+
+    protected function shouldShowCustomizeMenuItem(Panel $panel): bool
+    {
+        if (! $this->userCanCustomize()) {
+            return false;
+        }
+
+        if ($this->panelCustomizationLocked($panel->getId()) && ! $this->userCanManageDefaults()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function panelCustomizationLocked(string $panelId): bool
+    {
+        if (! Schema::hasTable('widget_grid_settings')) {
+            return false;
+        }
+
+        return WidgetGridSetting::isLocked($panelId);
     }
 
     /**

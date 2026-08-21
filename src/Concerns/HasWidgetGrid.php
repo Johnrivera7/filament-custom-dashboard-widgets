@@ -76,13 +76,6 @@ trait HasWidgetGrid
     protected function getWidgetGridHeaderActions(): array
     {
         return [
-            Action::make('widgetGridCustomize')
-                ->label(__('filament-widget-grid::widget-grid.customize'))
-                ->icon(Heroicon::SquaresPlus)
-                ->visible(fn (): bool => $this->canCustomizeWidgetGrid() && ! $this->widgetGridEditing)
-                ->action(function (): void {
-                    $this->widgetGridEditing = true;
-                }),
             Action::make('widgetGridSave')
                 ->label(__('filament-widget-grid::widget-grid.save'))
                 ->icon(Heroicon::Check)
@@ -117,31 +110,56 @@ trait HasWidgetGrid
                 ->requiresConfirmation()
                 ->visible(fn (): bool => $this->widgetGridEditing && $this->canManageWidgetGridDefaults())
                 ->action('applyWidgetGridDefaultToAll'),
-            Action::make('widgetGridToggleLock')
-                ->label(fn (): string => $this->isWidgetGridLocked()
-                    ? __('filament-widget-grid::widget-grid.unlock')
-                    : __('filament-widget-grid::widget-grid.lock'))
-                ->icon(Heroicon::LockClosed)
-                ->color('gray')
-                ->visible(fn (): bool => $this->canManageWidgetGridDefaults())
-                ->action(function (): void {
-                    WidgetGridSetting::setLocked($this->widgetGridPanelId(), ! $this->isWidgetGridLocked());
-                    Notification::make()
-                        ->success()
-                        ->title($this->isWidgetGridLocked()
-                            ? __('filament-widget-grid::widget-grid.locked')
-                            : __('filament-widget-grid::widget-grid.unlocked'))
-                        ->send();
-                }),
         ];
     }
 
     /**
-     * @param  array<int, array<string, mixed>>  $value
+     * Livewire may call this with a nested scalar (e.g. a single `w`) when a cell is resized,
+     * or with [] when GridStack fires `change` during a re-render. Never wipe a populated layout.
      */
-    public function updatedWidgetGridLayout(array $value): void
+    public function updatedWidgetGridLayout(mixed $value, mixed $key = null): void
     {
-        $this->widgetGridLayout = $this->sanitizeWidgetGridItems($value);
+        if (is_string($key) && $key !== '') {
+            return;
+        }
+
+        $items = $this->extractWidgetGridItems($value) ?? $this->extractWidgetGridItems($this->widgetGridLayout);
+
+        if ($items === null || $items === []) {
+            return;
+        }
+
+        $this->widgetGridLayout = $this->sanitizeWidgetGridItems($items);
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>|null
+     */
+    protected function extractWidgetGridItems(mixed $value): ?array
+    {
+        if (! is_array($value) || $value === []) {
+            return null;
+        }
+
+        if (isset($value['items']) && is_array($value['items'])) {
+            $value = $value['items'];
+        }
+
+        $first = $value[array_key_first($value)] ?? null;
+
+        if (! is_array($first) || ! isset($first['widget'])) {
+            return null;
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param  mixed  $value
+     */
+    protected function isWidgetGridLayoutPayload(mixed $value): bool
+    {
+        return $this->extractWidgetGridItems($value) !== null;
     }
 
     /**
@@ -149,7 +167,7 @@ trait HasWidgetGrid
      */
     public function syncWidgetGridLayout(array $items): void
     {
-        if (! $this->canCustomizeWidgetGrid()) {
+        if (! $this->canCustomizeWidgetGrid() || $items === []) {
             return;
         }
 
@@ -503,9 +521,15 @@ trait HasWidgetGrid
      */
     public function getVisibleWidgetGridLayout(): array
     {
+        $items = $this->extractWidgetGridItems($this->widgetGridLayout) ?? [];
+
         return array_values(array_filter(
-            $this->widgetGridLayout,
-            fn (array $item): bool => $item['visible'] && $this->canViewWidgetOnGrid($item['widget'])
+            $items,
+            fn (mixed $item): bool => is_array($item)
+                && ($item['visible'] ?? false)
+                && isset($item['widget'])
+                && is_string($item['widget'])
+                && $this->canViewWidgetOnGrid($item['widget'])
         ));
     }
 
@@ -618,6 +642,10 @@ trait HasWidgetGrid
         }
 
         $normalized = LayoutPacker::compact($normalized, $plugin->getColumns());
+
+        if ($allowed === []) {
+            return array_values($normalized);
+        }
 
         return array_values(array_filter(
             $normalized,

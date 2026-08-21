@@ -125,22 +125,30 @@
 }
 
 .fi-wg-item-content {
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* GridStack insets this box with top/right/bottom/left. Setting height: 100%
+       ignores the bottom inset and leaves a taller empty band between cards. */
     overflow: hidden;
-    position: relative;
 }
 
 .fi-wg-widget {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
     height: 100%;
     min-height: 0;
+    width: 100%;
 }
 
 .fi-wg-widget > * {
     display: flex;
+    flex: 1 1 auto;
     flex-direction: column;
     height: 100%;
     max-height: 100%;
     min-height: 0;
+    width: 100%;
 }
 
 .fi-wg-widget .fi-section,
@@ -177,7 +185,23 @@
 }
 
 .fi-wg-grid.grid-stack > .grid-stack-item > .grid-stack-item-content {
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
+}
+
+.fi-wg-item,
+.grid-stack-item.fi-wg-item,
+.fi-wg-item-content,
+.fi-wg-widget,
+.fi-wg-widget .filament-apex-charts-chart,
+.fi-wg-widget .filament-apex-charts-chart-container,
+.fi-wg-widget .filament-apex-charts-chart-object,
+.fi-wg-widget .apexcharts-canvas,
+.fi-wg-widget .apexcharts-inner,
+.fi-wg-widget .apexcharts-svg {
+    min-width: 0 !important;
+    max-width: 100%;
 }
 
 .fi-wg-widget .apexcharts-legend {
@@ -186,10 +210,76 @@
     max-width: 100%;
     overflow: visible !important;
     height: auto !important;
+    width: auto !important;
 }
 
 .fi-wg-widget .apexcharts-legend-series {
     margin: 2px 6px !important;
+}
+
+.fi-wg-widget .fi-wi,
+.fi-wg-widget .fi-widget,
+.fi-wg-widget .fi-wi-widget {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    width: 100%;
+}
+
+.fi-wg-widget .fi-section.fi-section-not-contained {
+    align-content: stretch;
+    height: 100%;
+    min-height: 0;
+}
+
+.fi-wg-widget .fi-section-not-contained > .fi-section-content-ctn {
+    flex: 1 1 auto;
+    height: 100%;
+    min-height: 0;
+}
+
+.fi-wg-widget .fi-grid:not(.fi-grid-direction-col) {
+    align-content: stretch;
+    align-items: stretch;
+    display: grid !important;
+    flex: 1 1 auto;
+    height: 100%;
+    min-height: 0;
+    width: 100%;
+}
+
+.fi-wg-widget .fi-grid-ctn,
+.fi-wg-widget .fi-grid-col {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+.fi-wg-widget .fi-wi-stats-overview-stat {
+    flex: 1 1 auto;
+    height: 100%;
+    min-height: 0;
+}
+
+.fi-wg-cell-split .fi-wg-widget .fi-grid:not(.fi-grid-direction-col) {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.fi-wg-cell-portrait .fi-wg-widget .fi-grid:not(.fi-grid-direction-col) {
+    grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.fi-wg-cell-portrait .fi-wi-stats-overview-stat-value {
+    font-size: 1.5rem;
+}
+
+.fi-wg-widget .fi-wi-stats-overview .fi-section-content,
+.fi-wg-widget .fi-wi-stats-overview .fi-section-content-ctn {
+    overflow: auto;
 }
 
 .fi-wg-widget-locked {
@@ -202,6 +292,17 @@
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary-500, #3b82f6) 40%, transparent);
     cursor: grab;
     overflow: hidden;
+}
+
+.fi-wg-grid-editing .grid-stack-item:active:not(.ui-resizable-resizing) > .fi-wg-item-content,
+.fi-wg-grid-editing .grid-stack-item.ui-draggable-dragging,
+.fi-wg-grid-editing .grid-stack-item.ui-draggable-dragging > .fi-wg-item-content {
+    cursor: grabbing !important;
+}
+
+html.fi-wg-grabbing,
+html.fi-wg-grabbing *:not(.ui-resizable-handle) {
+    cursor: grabbing !important;
 }
 
 .fi-wg-grid-editing > .grid-stack-item > .ui-resizable-handle {
