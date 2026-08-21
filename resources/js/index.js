@@ -20,11 +20,25 @@ export default function filamentWidgetGrid({
         onPointerUp: null,
 
         init() {
+            this.syncEditableFromWire()
             this.bootGrid()
 
             this.$watch('editable', () => {
                 this.bootGrid()
             })
+
+            if (this.$wire && typeof this.$wire.$watch === 'function') {
+                this.$wire.$watch('widgetGridEditing', () => {
+                    this.syncEditableFromWire()
+                    this.bootGrid()
+                })
+            }
+        },
+
+        syncEditableFromWire() {
+            if (this.$wire && typeof this.$wire.widgetGridEditing === 'boolean') {
+                this.editable = this.$wire.widgetGridEditing
+            }
         },
 
         isMobile() {
@@ -497,9 +511,12 @@ export default function filamentWidgetGrid({
             await this.$wire.saveWidgetGridTemplateFromInput()
         },
 
-        toggleWidget(widgetClass, visible) {
+        async toggleWidget(widgetClass, visible) {
             this.sync()
-            this.$wire.toggleWidgetOnGrid(widgetClass, visible)
+            await this.$wire.toggleWidgetOnGrid(widgetClass, visible)
+            this.syncEditableFromWire()
+            this.editable = true
+            this.$nextTick(() => this.bootGrid())
         },
 
         destroy() {

@@ -233,6 +233,8 @@ trait HasWidgetGrid
 
         $this->widgetGridLayout = $this->resolveWidgetGridLayout();
 
+        $this->keepWidgetGridEditing();
+
         Notification::make()
             ->success()
             ->title(__('filament-widget-grid::widget-grid.reset_done'))
@@ -324,6 +326,8 @@ trait HasWidgetGrid
             return;
         }
 
+        $this->keepWidgetGridEditing();
+
         if ($this->isWidgetOnGrid($widgetClass)) {
             return;
         }
@@ -347,6 +351,8 @@ trait HasWidgetGrid
             return;
         }
 
+        $this->keepWidgetGridEditing();
+
         $this->widgetGridLayout = array_values(array_filter(
             $this->widgetGridLayout,
             fn (array $item): bool => $item['widget'] !== $widgetClass
@@ -355,6 +361,8 @@ trait HasWidgetGrid
 
     public function toggleWidgetOnGrid(string $widgetClass, bool $visible): void
     {
+        $this->keepWidgetGridEditing();
+
         if ($visible) {
             $this->addWidgetToGrid($widgetClass);
 
@@ -362,6 +370,19 @@ trait HasWidgetGrid
         }
 
         $this->removeWidgetFromGrid($widgetClass);
+    }
+
+    /**
+     * Stay in customize mode across Livewire re-renders (e.g. after removing a widget).
+     */
+    protected function keepWidgetGridEditing(): void
+    {
+        if (! $this->canCustomizeWidgetGrid()) {
+            return;
+        }
+
+        $this->widgetGridEditing = true;
+        $this->openCustomize = true;
     }
 
     public function saveWidgetGridTemplateFromInput(): void
