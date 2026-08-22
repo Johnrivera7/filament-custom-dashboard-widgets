@@ -2,6 +2,10 @@
 
 All notable changes to `filament-widget-grid` will be documented in this file.
 
+## 1.0.1 - 2026-08-22
+
+- Rebrand display name to **Customizable Dashboard Widgets** (Filament directory) to distinguish from the official Custom Dashboards plugin.
+
 ## 1.0.0 - 2026-08-20
 
 - Initial release for Filament v5: permission-aware widget catalog, GridStack drag-and-drop, resize handles, per-user layouts, default layouts, lock, and shareable templates.

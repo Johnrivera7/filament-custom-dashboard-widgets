@@ -6,8 +6,8 @@ Use these when submitting https://filamentphp.com/plugins
 
 | Field | Value |
 |---|---|
-| **Name** | `Custom Dashboard Widgets` |
-| **Slug** | `jrg7-custom-dashboard-widgets` (or auto from author + name) |
+| **Name** | `Customizable Dashboard Widgets` |
+| **Slug** | `jrg7-customizable-dashboard-widgets` |
 | **GitHub repository** | `Johnrivera7/filament-custom-dashboard-widgets` |
 | **Composer package name** | `johnrivera7/filament-custom-dashboard-widgets` |
 | **Description** | Let users customize Filament dashboards: drag, resize, and arrange widgets on a permission-aware collage grid. |

@@ -1,14 +1,14 @@
 <div class="filament-hidden">
 
-![Custom Dashboard Widgets](images/filament-directory-cover.jpg)
+![Customizable Dashboard Widgets](images/filament-directory-cover.jpg)
 
-# Custom Dashboard Widgets
+# Customizable Dashboard Widgets
 
 </div>
 
-# Custom Dashboard Widgets
+# Customizable Dashboard Widgets
 
-![Custom Dashboard Widgets](images/custom-widgets.gif)
+![Customizable Dashboard Widgets](images/custom-widgets.gif)
 
 **Customize Filament dashboards: drag, resize, and arrange widgets.**
 
@@ -16,7 +16,7 @@ Give every Filament user a personal desktop: add widgets, drag them into place, 
 
 Compatible with **Filament v5** · PHP **8.2+** · **English & Spanish** · **Dark mode** · **Free (MIT)**
 
-![Custom Dashboard Widgets cover](images/filament-directory-cover.jpg)
+![Customizable Dashboard Widgets cover](images/filament-directory-cover.jpg)
 
 ![Plugins list thumbnail](images/filament-directory-thumbnail.jpg)
 

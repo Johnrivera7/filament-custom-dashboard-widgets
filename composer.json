@@ -1,6 +1,6 @@
 {
     "name": "johnrivera7/filament-custom-dashboard-widgets",
-    "description": "Custom Filament dashboard widgets: drag, resize, and arrange on a permission-aware collage grid with layouts and templates.",
+    "description": "Customizable Filament dashboard widgets: drag, resize, and arrange on a permission-aware collage grid with layouts and templates.",
     "keywords": [
         "johnrivera7",
         "laravel",
@@ -8,6 +8,7 @@
         "filament",
         "filament-plugin",
         "custom-dashboard-widgets",
+        "customizable-dashboard-widgets",
         "filament-custom-dashboard-widgets",
         "draggable",
         "dashboard",
