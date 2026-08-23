@@ -16,9 +16,13 @@ Give every Filament user a personal desktop: add widgets, drag them into place, 
 
 Compatible with **Filament v5** · PHP **8.2+** · **English & Spanish** · **Dark mode** · **Free (MIT)**
 
+<div class="filament-hidden">
+
 ![Customizable Dashboard Widgets cover](images/filament-directory-cover.jpg)
 
 ![Plugins list thumbnail](images/filament-directory-thumbnail.jpg)
+
+</div>
 
 ![Dashboard — light mode](images/screenshot-light.jpg)
 
