@@ -1,12 +1,8 @@
-<div class="filament-hidden">
-
-![Customizable Dashboard Widgets](images/filament-directory-cover.jpg)
-
 # Customizable Dashboard Widgets
 
-</div>
+<img src="images/filament-directory-cover.jpg" alt="Customizable Dashboard Widgets cover" class="filament-hidden" />
 
-# Customizable Dashboard Widgets
+<img src="images/filament-directory-thumbnail.jpg" alt="Plugins list thumbnail" class="filament-hidden" />
 
 ![Customizable Dashboard Widgets](images/custom-widgets.gif)
 
@@ -15,14 +11,6 @@
 Give every Filament user a personal desktop: add widgets, drag them into place, resize from any edge, and save the layout. Your existing Filament widgets keep working — this plugin turns the dashboard into a collage canvas with permissions, defaults, templates, and an admin lock.
 
 Compatible with **Filament v5** · PHP **8.2+** · **English & Spanish** · **Dark mode** · **Free (MIT)**
-
-<div class="filament-hidden">
-
-![Customizable Dashboard Widgets cover](images/filament-directory-cover.jpg)
-
-![Plugins list thumbnail](images/filament-directory-thumbnail.jpg)
-
-</div>
 
 ![Dashboard — light mode](images/screenshot-light.jpg)
 
