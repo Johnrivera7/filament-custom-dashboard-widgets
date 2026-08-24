@@ -2,6 +2,10 @@
 
 All notable changes to `filament-widget-grid` will be documented in this file.
 
+## 1.0.2 - 2026-08-24
+
+- Fix `filament-hidden` by applying the class directly on `img` tags.
+
 ## 1.0.1 - 2026-08-22
 
 - Rebrand display name to **Customizable Dashboard Widgets** (Filament directory) to distinguish from the official Custom Dashboards plugin.

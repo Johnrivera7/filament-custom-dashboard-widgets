@@ -78,7 +78,7 @@ Save for me · Cancel · Reset to default · Save as default · Apply to all use
 ## Quick start
 
 ```bash
-composer require johnrivera7/filament-custom-dashboard-widgets
+composer require johnrivera7/filament-custom-dashboard-widgets:^1.0
 php artisan filament-widget-grid:install
 ```
 
