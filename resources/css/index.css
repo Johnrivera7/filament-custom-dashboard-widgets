@@ -411,6 +411,48 @@
     width: 100%;
 }
 
+.fi-wg-widget .fi-wi-chart,
+.fi-wg-widget .fi-wi-chart > .fi-section,
+.fi-wg-widget .fi-wi-chart .fi-section-content-ctn,
+.fi-wg-widget .fi-wi-chart .fi-section-content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    width: 100%;
+}
+
+.fi-wg-widget .fi-wi-chart .fi-section-content > div {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    width: 100%;
+}
+
+/* Chart.js (Filament ChartWidget): fill the grid cell, ignore aspect-square lock */
+.fi-wg-widget .fi-wi-chart-frame,
+.fi-wg-widget .fi-wi-chart-canvas-ctn {
+    aspect-ratio: auto !important;
+    display: flex !important;
+    flex: 1 1 auto;
+    flex-direction: column;
+    height: 100% !important;
+    max-height: none !important;
+    min-height: 0;
+    width: 100% !important;
+    max-width: 100%;
+}
+
+.fi-wg-widget .fi-wi-chart-frame canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+}
+
 .fi-wg-widget .fi-section,
 .fi-wg-widget .filament-apex-charts-section,
 .fi-wg-widget .filament-apex-charts-widget {

@@ -294,9 +294,52 @@ export default function filamentWidgetGrid({
                     this.adaptApexChart(chart, { height: chartHeight, width: chartWidth, portrait })
                 })
 
-                content.querySelectorAll('canvas').forEach((canvas) => {
-                    window.Chart?.getChart?.(canvas)?.resize?.()
-                })
+                this.adaptChartJs(content, { height: chartHeight, width: chartWidth, portrait })
+            })
+        },
+
+        adaptChartJs(content, { height, width, portrait }) {
+            content.querySelectorAll('canvas').forEach((canvas) => {
+                const chart = window.Chart?.getChart?.(canvas)
+
+                if (! chart) {
+                    return
+                }
+
+                const frame =
+                    canvas.closest('.fi-wi-chart-frame') ??
+                    canvas.closest('.fi-wi-chart-canvas-ctn') ??
+                    canvas.parentElement
+
+                if (frame instanceof HTMLElement) {
+                    frame.style.aspectRatio = 'auto'
+                    frame.style.height = `${height}px`
+                    frame.style.maxHeight = `${height}px`
+                    frame.style.width = '100%'
+                }
+
+                canvas.style.width = '100%'
+                canvas.style.height = '100%'
+                canvas.style.maxHeight = '100%'
+
+                try {
+                    chart.options.responsive = false
+                    chart.options.maintainAspectRatio = false
+
+                    const type = chart.config?.type
+                    const cramped = width < 380
+
+                    if (['doughnut', 'pie', 'polarArea'].includes(type)) {
+                        chart.options.plugins ??= {}
+                        chart.options.plugins.legend ??= {}
+                        chart.options.plugins.legend.position = portrait || cramped ? 'bottom' : 'bottom'
+                        chart.options.plugins.legend.display = height > 120
+                    }
+
+                    chart.resize()
+                } catch {
+                    // Chart.js may reject option patches during teardown.
+                }
             })
         },
 
