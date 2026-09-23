@@ -229,6 +229,7 @@ it('detects Filament stats widgets without extra author config', function () {
     };
 
     expect(WidgetInspector::isStatsWidget($widget::class))->toBeTrue()
+        ->and(WidgetInspector::defaultWidth($widget::class, 24))->toBe(12)
         ->and(WidgetInspector::gridMinWidth($widget::class, 24))->toBe(1)
         ->and(WidgetInspector::sizeToContent($widget::class))->toBeFalse();
 });

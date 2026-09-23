@@ -155,9 +155,13 @@ export default function filamentWidgetGrid({
                     resizable: { handles: 'n, e, s, w, ne, se, sw, nw' },
                     minRow: 1,
                     sizeToContent: false,
+                    // GridStack defaults columnMax to 12; without an explicit max,
+                    // checkDynamicColumn() collapses a 24-col collage back to 12
+                    // whenever the window is wider than the mobile breakpoint.
                     columnOpts: {
                         breakpointForWindow: true,
                         layout: 'moveScale',
+                        columnMax: columns,
                         breakpoints: [{ w: 768, c: 1, layout: 'list' }],
                     },
                 },
@@ -277,7 +281,10 @@ export default function filamentWidgetGrid({
                     content.querySelector('.filament-apex-charts-chart')
                 const width = Math.max(1, content.clientWidth)
                 const height = Math.max(1, content.clientHeight)
-                const portrait = height > width * 0.92
+                // Charts may use aspect; stats column count must follow WIDTH only.
+                // Tall-but-wide cells (e.g. h≈w after resize) used to force portrait
+                // and leave a 1-col stack / dead space instead of filling 2–4 cols.
+                const portrait = height > width * 1.25
                 const chartHeight = Math.max(
                     120,
                     (chartWrap ? this.innerBoxHeight(chartWrap) : height - (header?.offsetHeight ?? 0)) - 4,
@@ -288,7 +295,7 @@ export default function filamentWidgetGrid({
                         this.horizontalPadding(chartWrap ?? content),
                 )
 
-                this.adaptCellLayout(item, { width, portrait })
+                this.adaptCellLayout(item, { width })
 
                 this.apexChartsIn(content).forEach((chart) => {
                     this.adaptApexChart(chart, { height: chartHeight, width: chartWidth, portrait })
@@ -343,21 +350,39 @@ export default function filamentWidgetGrid({
             })
         },
 
-        adaptCellLayout(item, { width, portrait }) {
-            const cols = portrait || width < 420 ? 1 : width < 780 ? 2 : null
+        adaptCellLayout(item, { width }) {
+            // Fluido según ancho de la celda collage (≈1 card ~11rem): 1–4 cols.
+            // Ignora aspect ratio: el hueco derecho venía de forzar 1–2 cols en celdas anchas.
+            const minCardPx = 176
+            const cols = Math.min(4, Math.max(1, Math.floor(width / minCardPx)))
 
             item.classList.toggle('fi-wg-cell-portrait', cols === 1)
             item.classList.toggle('fi-wg-cell-split', cols === 2)
-            item.classList.toggle('fi-wg-cell-landscape', cols === null)
+            item.classList.toggle('fi-wg-cell-triptych', cols === 3)
+            item.classList.toggle('fi-wg-cell-landscape', cols >= 4)
 
-            item.querySelectorAll('.fi-grid:not(.fi-grid-direction-col)').forEach((grid) => {
-                const children = Math.max(1, grid.children.length)
-                const next = cols === 1 ? 1 : cols === 2 ? Math.min(2, children) : children
-
-                grid.style.setProperty(
-                    'grid-template-columns',
-                    `repeat(${next}, minmax(0, 1fr))`,
+            // Solo grids con 2+ hijos (stats internos). El wrapper Schema suele tener 1 hijo.
+            item
+                .querySelectorAll(
+                    '.fi-wi-stats-overview .fi-section-content.fi-grid:not(.fi-grid-direction-col)',
                 )
+                .forEach((grid) => {
+                    const children = Math.max(1, grid.children.length)
+                    const next = Math.min(cols, children)
+
+                    grid.style.setProperty(
+                        'grid-template-columns',
+                        `repeat(${next}, minmax(0, 1fr))`,
+                        'important',
+                    )
+                    grid.style.setProperty('width', '100%', 'important')
+                })
+
+            // Limpia overrides accidentales en wrappers de un solo hijo.
+            item.querySelectorAll('.fi-grid:not(.fi-grid-direction-col)').forEach((grid) => {
+                if (grid.children.length < 2 && !grid.classList.contains('fi-section-content')) {
+                    grid.style.removeProperty('grid-template-columns')
+                }
             })
         },
 

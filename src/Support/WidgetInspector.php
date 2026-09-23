@@ -59,7 +59,7 @@ final class WidgetInspector
         }
 
         if (self::isStatsWidget($widgetClass)) {
-            return $columns;
+            return max(1, min($columns, (int) round($columns * 0.5)));
         }
 
         if (self::isChartWidget($widgetClass)) {
