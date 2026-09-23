@@ -1,5 +1,6 @@
 {
     "name": "johnrivera7/filament-custom-dashboard-widgets",
+    "version": "1.0.3",
     "description": "Customizable Filament dashboard widgets: drag, resize, and arrange on a permission-aware collage grid with layouts and templates.",
     "keywords": [
         "johnrivera7",

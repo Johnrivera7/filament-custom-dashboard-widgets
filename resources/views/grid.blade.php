@@ -3,6 +3,14 @@
     $config = $page->getWidgetGridAlpineConfig();
     $catalog = $page->widgetGridEditing ? $page->getWidgetGridCatalog() : [];
     $visible = $page->getVisibleWidgetGridLayout();
+    $widgetGridCssHref = \JohnRivera7\FilamentWidgetGrid\Support\PublishedAsset::href(
+        \Filament\Support\Facades\FilamentAsset::getStyleHref('filament-widget-grid-styles', 'johnrivera7/filament-custom-dashboard-widgets'),
+        'css/johnrivera7/filament-custom-dashboard-widgets/filament-widget-grid-styles.css',
+    );
+    $widgetGridJsSrc = \JohnRivera7\FilamentWidgetGrid\Support\PublishedAsset::href(
+        \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('filamentWidgetGrid', 'johnrivera7/filament-custom-dashboard-widgets'),
+        'js/johnrivera7/filament-custom-dashboard-widgets/components/filamentWidgetGrid.js',
+    );
 @endphp
 
 {{-- Stub until x-load registers the real Alpine component. --}}
@@ -10,8 +18,8 @@
 <div
     class="fi-wg"
     x-load
-    x-load-css="[@js(\Filament\Support\Facades\FilamentAsset::getStyleHref('filament-widget-grid-styles', 'johnrivera7/filament-custom-dashboard-widgets'))]"
-    x-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('filamentWidgetGrid', 'johnrivera7/filament-custom-dashboard-widgets') }}"
+    x-load-css="[@js($widgetGridCssHref)]"
+    x-load-src="{{ $widgetGridJsSrc }}"
     x-data="filamentWidgetGrid(@js($config))"
     x-on:keydown.escape.window="onEscape($event)"
 >

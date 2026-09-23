@@ -2,12 +2,13 @@
 
 All notable changes to `filament-widget-grid` will be documented in this file.
 
-## Unreleased
+## 1.0.3 - 2026-09-23
 
 - Fix GridStack collapsing a 24-column collage to 12 (`columnOpts.columnMax` now matches configured columns).
 - Ship `.gs-24` width/left CSS (GridStack only includes 1 and 12 out of the box); without it, 24-col cells render at 0 width.
 - Stats overview cells pick 1–4 columns from **width only** (no longer forced to portrait when the cell is tall-but-wide), so cards fill the widget instead of leaving a dead right half.
 - Default stats overview width is half the collage (not full-width) so charts can sit side-by-side.
+- Bust Filament `?v=dev-main` with a content hash of the published CSS/JS so Cloudflare (and similar CDNs) do not keep serving a stale collage after `filament:assets`.
 
 ## 1.0.2 - 2026-08-24
 
